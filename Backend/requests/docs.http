@@ -1,0 +1,26 @@
+### Get All Documents
+GET http://localhost:5000/api/docs
+
+### Create New Document
+POST http://localhost:5000/api/docs
+Content-Type: application/json
+
+{
+    "title": "AI Based Project",
+    "content": "We are building an AI based project using MERN stack and Socket.io for real-time collaboration."
+}
+
+### Get Document By ID
+@docId = 6a0d93e962661750d1b99bbb
+GET http://localhost:5000/api/docs/{{docId}}
+
+### Update Document
+PUT http://localhost:5000/api/docs/{{docId}}
+Content-Type: application/json
+
+{
+    "content": "Update: We are using MERN stack with Socket.io."
+}
+
+### Delete Document
+DELETE http://localhost:5000/api/docs/{{docId}}

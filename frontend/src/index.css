@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-sky-50: #f0f9ff;
+  --color-sky-400: #38bdf8;
+  --color-sky-500: #0ea5e9;
+  --color-sky-600: #0284c7;
+  --color-dark-blue: #020617;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+}
+
+:root {
+  --bg-main: #f0f9ff;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-dim: #475569;
+  --accent: #0ea5e9;
+  --accent-soft: rgba(14, 165, 233, 0.1);
+  --border: #e2e8f0;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(226, 232, 240, 0.5);
+}
+
+[data-palette="sunset"] {
+  --accent: #f59e0b;
+  --accent-soft: rgba(245, 158, 11, 0.1);
+}
+
+.dark {
+  --bg-main: #020617;
+  --bg-card: #0f172a;
+  --text-main: #f1f5f9;
+  --text-dim: #94a3b8;
+  --accent: #38bdf8;
+  --accent-soft: rgba(56, 189, 248, 0.1);
+  --border: #1e293b;
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(30, 41, 59, 0.5);
+}
+
+.dark[data-palette="sunset"] {
+  --accent: #fbbf24;
+  --accent-soft: rgba(251, 191, 36, 0.1);
+}
+
+@layer base {
+  body {
+    @apply antialiased transition-all duration-300;
+    color: var(--text-main);
+    background-color: var(--bg-main);
+    background-image: 
+      radial-gradient(circle at 0% 0%, var(--accent-soft) 0%, transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .glass {
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  .glass-accent {
+    background-color: var(--accent-soft);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+  }
+}
