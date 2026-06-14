@@ -15,13 +15,16 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: '*',
+        origin: process.env.FRONTEND_URL || 'https://collaborative-document-editor-three.vercel.app',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
     },
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || '*',
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
