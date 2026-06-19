@@ -13,7 +13,7 @@ connectDB();
 
 const checkOrigin = (origin, callback) => {
     if (!origin) return callback(null, true);
-    const isLocal = origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1');
+    const isLocal = origin.startsWith('http://localhost:5173') || origin.startsWith('http://127.0.0.1');
     const isVercel = origin.endsWith('.vercel.app');
     const isConfigured = origin === process.env.FRONTEND_URL;
 
