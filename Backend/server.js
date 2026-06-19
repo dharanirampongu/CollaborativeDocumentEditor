@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const http = require('http');
-const { Server } = require('socket.io');
+consconst { Server } = require('socket.io');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -52,9 +52,6 @@ require('./socketHandler')(io);
 
 // Error Handler
 app.use(errorHandler);
-
-const PORT = process.env.PORT || 5000;
-
-server.listen(PORT, () => {
+ {
     console.log(`Server running on port ${PORT}`);
 });
