@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
-});
+const rawUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const baseURL = rawUrl.endsWith('/api') ? rawUrl : `${rawUrl.replace(/\/$/, '')}/api`;
 
-// Auth token interceptor removed as authentication is no longer mandatory
+const api = axios.create({
+  baseURL,
+});
 
 export default api;
