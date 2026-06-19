@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const http = require('http');
-consconst { Server } = require('socket.io');
+const { Server } = require('socket.io');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -12,16 +12,21 @@ dotenv.config();
 connectDB();
 
 const checkOrigin = (origin, callback) => {
+    // allow requests with no origin (e.g., curl, server-to-server)
     if (!origin) return callback(null, true);
+
     const isLocal = origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1');
     const isVercel = origin.endsWith('.vercel.app');
-    const isConfigured = origin === process.env.FRONTEND_URL;
+    const isRender = origin.endsWith('.onrender.com');
+    const frontendUrl = process.env.FRONTEND_URL;
+    const isConfigured = frontendUrl && (origin === frontendUrl || origin.startsWith(frontendUrl));
 
-    if (isLocal || isVercel || isConfigured) {
-        callback(null, true);
-    } else {
-        callback(null, false);
+    if (isLocal || isVercel || isRender || isConfigured) {
+        return callback(null, true);
     }
+
+    console.warn(`Blocked CORS origin: ${origin}`);
+    return callback(new Error('Not allowed by CORS'));
 };
 
 const app = express();
@@ -52,6 +57,9 @@ require('./socketHandler')(io);
 
 // Error Handler
 app.use(errorHandler);
- {
+
+const PORT = process.env.PORT || 5000;
+
+server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
