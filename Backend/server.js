@@ -52,6 +52,11 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/docs', require('./routes/docRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 
+// Simple root route for health checks and browsers
+app.get('/', (req, res) => {
+    res.send('API is running');
+});
+
 // Socket.io logic
 require('./socketHandler')(io);
 
