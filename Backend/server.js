@@ -11,18 +11,27 @@ dotenv.config();
 // Connect to database
 connectDB();
 
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    'https://collaborative-document-editor-three.vercel.app',
+    'https://collaborative-document-editor-three.vercel.app/',
+    'http://localhost:5173',
+    'http://localhost:3000'
+].filter(Boolean);
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: process.env.FRONTEND_URL || 'https://collaborative-document-editor-three.vercel.app',
+        origin: allowedOrigins,
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true
     },
 });
 
 // Middleware
 app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: allowedOrigins,
     credentials: true
 }));
 app.use(express.json());

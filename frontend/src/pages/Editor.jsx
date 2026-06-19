@@ -31,6 +31,8 @@ const Editor = () => {
   const [showGrammarAssist, setShowGrammarAssist] = useState(false);
   const [remoteCursors, setRemoteCursors] = useState({});
   const [error, setError] = useState('');
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [tempTitle, setTempTitle] = useState('');
   const { user } = useAuth();
   const socketRef = useRef();
   const timerRef = useRef();
@@ -42,6 +44,7 @@ const Editor = () => {
       try {
         const { data } = await api.get(`/docs/${id}`);
         setDocument(data);
+        setTempTitle(data.title);
         setContent(data.content || '');
         setPolls(data.polls || []);
         setActivities(data.activities || []);
@@ -100,6 +103,22 @@ const Editor = () => {
       socketRef.current.disconnect();
     };
   }, [id]);
+
+  const handleTitleSave = async () => {
+    setIsEditingTitle(false);
+    if (!tempTitle.trim() || tempTitle === document.title) {
+      setTempTitle(document.title);
+      return;
+    }
+    
+    try {
+      const { data } = await api.put(`/docs/${id}`, { title: tempTitle });
+      setDocument(prev => ({ ...prev, title: data.title }));
+    } catch (err) {
+      console.error('Failed to update title', err);
+      setTempTitle(document.title);
+    }
+  };
 
   // Handle local changes
   const handleContentChange = (e) => {
@@ -162,7 +181,7 @@ const Editor = () => {
     const styles = window.getComputedStyle(element);
     
     // Create mirror div to measure
-    const mirror = document.createElement('div');
+    const mirror = window.document.createElement('div');
     mirror.style.position = 'absolute';
     mirror.style.visibility = 'hidden';
     mirror.style.whiteSpace = 'pre-wrap';
@@ -178,17 +197,17 @@ const Editor = () => {
     const textBefore = element.value.substring(0, index);
     const textAfter = element.value.substring(index);
     
-    const span = document.createElement('span');
+    const span = window.document.createElement('span');
     span.textContent = element.value.substring(index, index + 1) || '.';
     
     mirror.textContent = textBefore;
     mirror.appendChild(span);
-    document.body.appendChild(mirror);
+    window.document.body.appendChild(mirror);
     
     const spanRect = span.getBoundingClientRect();
     const mirrorRect = mirror.getBoundingClientRect();
     
-    document.body.removeChild(mirror);
+    window.document.body.removeChild(mirror);
     
     return {
       top: spanRect.top - mirrorRect.top + element.offsetTop,
@@ -270,9 +289,33 @@ const Editor = () => {
             <ChevronLeft className="w-5 h-5" />
           </button>
           <div className="flex flex-col">
-            <h1 className="text-lg font-extrabold text-[var(--text-main)] truncate max-w-[150px] sm:max-w-md">
-              {document?.title}
-            </h1>
+            {isEditingTitle ? (
+              <input
+                type="text"
+                value={tempTitle}
+                onChange={(e) => setTempTitle(e.target.value)}
+                onBlur={handleTitleSave}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleTitleSave();
+                  if (e.key === 'Escape') {
+                    setTempTitle(document.title);
+                    setIsEditingTitle(false);
+                  }
+                }}
+                className="text-lg font-extrabold text-[var(--text-main)] bg-[var(--bg-main)]/50 border border-[var(--accent)] rounded px-2 py-0.5 focus:outline-none focus:ring-1 focus:ring-[var(--accent)] max-w-[150px] sm:max-w-md"
+                autoFocus
+              />
+            ) : (
+              <h1 
+                onClick={() => setIsEditingTitle(true)}
+                className="text-lg font-extrabold text-[var(--text-main)] truncate max-w-[150px] sm:max-w-md hover:text-[var(--accent)] cursor-pointer flex items-center group/title"
+              >
+                <span>{document?.title}</span>
+                <span className="ml-2 text-xs text-[var(--text-dim)] opacity-0 group-hover/title:opacity-100 transition-opacity">
+                  (Edit)
+                </span>
+              </h1>
+            )}
             <div className="flex items-center space-x-2 text-[9px] uppercase tracking-widest font-bold">
               {saving ? (
                 <span className="flex items-center text-amber-500">

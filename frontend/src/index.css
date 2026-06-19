@@ -45,29 +45,25 @@
   --accent-soft: rgba(251, 191, 36, 0.1);
 }
 
-@layer base {
-  body {
-    @apply antialiased transition-all duration-300;
-    color: var(--text-main);
-    background-color: var(--bg-main);
-    background-image: 
-      radial-gradient(circle at 0% 0%, var(--accent-soft) 0%, transparent 40%),
-      radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
-    background-attachment: fixed;
-    min-height: 100vh;
-  }
+body {
+  @apply antialiased transition-all duration-300;
+  color: var(--text-main);
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(circle at 0% 0%, var(--accent-soft) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
-@layer components {
-  .glass {
-    background-color: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-  }
-  
-  .glass-accent {
-    background-color: var(--accent-soft);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--glass-border);
-  }
+.glass {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-accent {
+  background-color: var(--accent-soft);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
 }

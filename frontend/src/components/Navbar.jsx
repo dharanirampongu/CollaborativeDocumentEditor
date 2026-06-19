@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { LogOut, FileText, User as UserIcon } from 'lucide-react';
+import { LogOut, User as UserIcon, Sun } from 'lucide-react';
 import Button from './Button';
+import logo from '../assets/logo.png';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -18,9 +19,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link to="/" className="flex items-center space-x-2 group">
-            <div className="bg-[var(--accent)] p-1.5 rounded-lg group-hover:scale-105 transition-transform shadow-lg shadow-[var(--accent-soft)]">
-              <FileText className="w-6 h-6 text-white" />
-            </div>
+            <img src={logo} alt="CollabEdit Logo" className="w-8 h-8 rounded-lg group-hover:scale-105 transition-transform object-contain" />
             <span className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent)] to-sky-600">
               CollabEdit
             </span>
@@ -60,7 +59,7 @@ const Navbar = () => {
                 </div>
               </>
             ) : (
-              <div className="space-x-4">
+              <div className="flex items-center space-x-4">
                 <Link 
                   to="/login" 
                   className="text-[var(--text-dim)] hover:text-[var(--accent)] font-bold transition-colors text-xs uppercase tracking-widest"

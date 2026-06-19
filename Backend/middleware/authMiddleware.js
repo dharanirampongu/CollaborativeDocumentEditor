@@ -28,6 +28,7 @@ const protect = async (req, res, next) => {
     // In a real app, you might want to create a 'Guest' user in the DB
     req.user = {
         _id: '000000000000000000000000', // Dummy ObjectId
+        id: '000000000000000000000000',
         username: 'Guest',
         email: 'guest@example.com'
     };

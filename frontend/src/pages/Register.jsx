@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { Mail, Lock, User as UserIcon, ArrowRight, AlertCircle } from 'lucide-react';
 import Button from '../components/Button';
+import logo from '../assets/logo.png';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -42,10 +43,8 @@ const Register = () => {
     <div className="min-h-[calc(100vh-64px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50/50">
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl border border-gray-100">
         <div className="text-center">
-          <div className="mx-auto h-12 w-12 bg-pink-100 rounded-xl flex items-center justify-center">
-            <UserIcon className="h-6 w-6 text-pink-600" />
-          </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900 tracking-tight">Create an account</h2>
+          <img src={logo} alt="CollabEdit Logo" className="mx-auto h-14 w-14 object-contain mb-4" />
+          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Create an account</h2>
           <p className="mt-2 text-sm text-gray-600">
             Join thousands of writers collaborating in real-time
           </p>
@@ -148,7 +147,7 @@ const Register = () => {
         <div className="text-center mt-6">
           <p className="text-sm text-gray-600">
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-pink-600 hover:text-pink-500 transition-colors">
+            <Link to="/login" className="font-semibold text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors">
               Sign in
             </Link>
           </p>
