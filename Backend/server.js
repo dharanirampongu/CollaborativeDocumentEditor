@@ -2,7 +2,6 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const http = require('http');
-const path = require('path');
 const { Server } = require('socket.io');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
@@ -53,17 +52,6 @@ require('./socketHandler')(io);
 
 // Error Handler
 app.use(errorHandler);
-
-// Serve client in production or provide a simple root response
-if (process.env.NODE_ENV === 'production') {
-    const clientDist = path.join(__dirname, '..', 'frontend', 'dist');
-    app.use(express.static(clientDist));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(clientDist, 'index.html'));
-    });
-} else {
-    app.get('/', (req, res) => res.send('API is running'));
-}
 
 const PORT = process.env.PORT || 5000;
 
